@@ -10,9 +10,9 @@ interface UserInputProps<T> {
 }
 
 export const UserInput: React.FC<UserInputProps<any>> = ({
-  inputClassName,
   value,
   onChangeHandler,
+  inputClassName,
   placeholder = '',
   id = '',
   type = 'text',

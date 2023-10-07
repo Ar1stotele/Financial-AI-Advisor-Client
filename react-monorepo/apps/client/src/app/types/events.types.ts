@@ -3,3 +3,9 @@ export enum EventsOptions {
   CreateEvent = 'Create Event',
   News = 'News',
 }
+
+export enum EventCategory {
+  None = 'None',
+  Educational = 'Educational',
+  Entertainment = 'Entertainment',
+}
