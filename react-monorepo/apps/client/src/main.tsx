@@ -6,6 +6,7 @@ import App from './app/app';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles.css';
 import { BrowserRouter } from 'react-router-dom';
+import { GlobalContextProvider } from './app/store/GlobalStore';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,7 +14,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <StrictMode>
     <BrowserRouter>
-      <App />
+      <GlobalContextProvider>
+        <App />
+      </GlobalContextProvider>
     </BrowserRouter>
   </StrictMode>
 );

@@ -3,6 +3,7 @@ import { PageWrapper, TabWrapper, ToggleBtn } from '../components/ui';
 import { EventsOptions } from '../types';
 import { AllEvents } from '../components/events/all-events/AllEvents';
 import { CreateEvent } from '../components/events/create-event/CreateEvent';
+import { News } from '../components/events/news/News';
 
 export const Events = () => {
   const [selectedEventsTab, setSelectedEventTab] = useState(
@@ -22,6 +23,7 @@ export const Events = () => {
         </div>
         {selectedEventsTab === EventsOptions.AllEvents && <AllEvents />}
         {selectedEventsTab === EventsOptions.CreateEvent && <CreateEvent />}
+        {selectedEventsTab === EventsOptions.News && <News />}
       </TabWrapper>
     </PageWrapper>
   );

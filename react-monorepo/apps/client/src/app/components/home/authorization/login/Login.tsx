@@ -1,7 +1,8 @@
-import toast from 'react-hot-toast';
-import { useState, useCallback } from 'react';
-import { UserInput, SubmitBtn, TabWrapper } from '../../../ui';
 import { useNavigate } from 'react-router';
+import { useState, useCallback } from 'react';
+import toast from 'react-hot-toast';
+
+import { UserInput, SubmitBtn, TabWrapper } from '../../../ui';
 
 interface LoginProps {
   goBackHandler: () => void;
@@ -10,12 +11,12 @@ interface LoginProps {
 export const Login = ({ goBackHandler }: LoginProps) => {
   const navigate = useNavigate();
 
-  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
-  const setUserNamelHandler = useCallback(
+  const setUserEmaillHandler = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      setUserName(event.target.value);
+      setUserEmail(event.target.value);
     },
     []
   );
@@ -28,7 +29,7 @@ export const Login = ({ goBackHandler }: LoginProps) => {
   );
 
   const registerHandler = useCallback(() => {
-    if (userName.trim().length === 0 || userPassword.trim().length === 0) {
+    if (userEmail.trim().length === 0 || userPassword.trim().length === 0) {
       toast.error('Something went wrong', { duration: 5000 });
       return undefined;
     }
@@ -36,15 +37,16 @@ export const Login = ({ goBackHandler }: LoginProps) => {
     navigate('/events');
 
     console.log('TODO --> REGISTER USER');
-  }, [userName, userPassword]);
+  }, [navigate, userEmail, userPassword]);
 
   return (
     <TabWrapper goBackHandler={goBackHandler} wrapperClassName="gap-y-6">
       <h1 className="text-xl sm:text-2xl text-black font-bold">Login</h1>
       <UserInput
-        value={userName}
-        onChangeHandler={setUserNamelHandler}
+        value={userEmail}
+        onChangeHandler={setUserEmaillHandler}
         placeholder="Please enter username"
+        type="email"
       />
       <UserInput
         onChangeHandler={setUserPasswordHandler}

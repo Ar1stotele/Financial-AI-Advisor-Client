@@ -1,10 +1,15 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { SearchBar } from '../../ui';
 import { EventCategory, EventProps } from '../../../types';
 import { EventEntry } from './EventEntry';
+import { useNavigate } from 'react-router';
+import { useGlobalContext } from '../../../hooks/useGlobalContext';
 
 export const AllEvents = () => {
   const [searchString, setSearchString] = useState('');
+
+  const navigate = useNavigate();
+  const { setSelectedEventPage } = useGlobalContext();
 
   const data: EventProps[] = [
     {
@@ -33,6 +38,20 @@ export const AllEvents = () => {
       eventCapacity: '30',
     },
   ];
+
+  const goToEventPageHandler = useCallback(
+    (eventData: EventProps) => {
+      if (eventData.eventName.trim().length !== 0) {
+        setSelectedEventPage(eventData);
+        const urlName = `/events/${eventData.eventName}`;
+        //.replace(/ /g, '+');
+
+        navigate(urlName);
+      }
+    },
+    [navigate, setSelectedEventPage]
+  );
+
   return (
     <div className="w-[90%] mx-[5%] flex flex-col justify-center text-base">
       <SearchBar
@@ -50,7 +69,15 @@ export const AllEvents = () => {
                 .toLowerCase()
                 .includes(searchString.toLowerCase());
             })
-            .map((entry: EventProps) => <EventEntry event={entry} />)}
+            .map((entry: EventProps) => (
+              <button
+                key={entry.eventName}
+                className="cursor-pointer"
+                onClick={() => goToEventPageHandler(entry)}
+              >
+                <EventEntry key={entry.eventName} event={entry} />
+              </button>
+            ))}
       </div>
     </div>
   );

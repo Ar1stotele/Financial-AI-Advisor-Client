@@ -11,20 +11,24 @@ export const EventEntry = ({ event }: EventEntryProps) => {
 
   return (
     <div className="border-[1px] border-black border-solid p-2">
-      <div className="flex gap-x-2">
+      <div className="flex text-left gap-x-2">
         <span className="min-w-[150px]">Event Name:</span>
         <span>{event.eventName}</span>
       </div>
-      <div className="flex gap-x-2">
-        <span className="min-w-[150px]">Event Description:</span>
-        <span>{event.eventDescription}</span>
+      <div className="flex text-left gap-x-2">
+        <span className="min-w-[150px] ">Event Description:</span>
+        <span className="text-left">{event.eventDescription}</span>
       </div>
-      <div className="flex gap-x-2">
+      <div className="flex text-left gap-x-2">
         <span className="min-w-[150px]">Event Category:</span>
         <span>{event.eventCategory}</span>
       </div>
+      <div className="flex text-left gap-x-2">
+        <span className="min-w-[150px]">Number of guests:</span>
+        <span>{event.eventCapacity}</span>
+      </div>
       {!event.isEventOffline && (
-        <div className="flex gap-x-2">
+        <div className="flex text-left gap-x-2">
           <span className="min-w-[150px]">Meeting URL:</span>
           <a
             href={event.eventOnlineUrl}
@@ -32,12 +36,12 @@ export const EventEntry = ({ event }: EventEntryProps) => {
             rel="noreferrer"
             className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
           >
-            Go to link
+            Go to the link
           </a>
         </div>
       )}
       {event.isEventOffline && (
-        <div className="flex gap-x-2">
+        <div className="flex text-left gap-x-2">
           <span className="min-w-[150px]">Google maps URL:</span>
           <a
             href={googleMapsUrl}
@@ -45,14 +49,17 @@ export const EventEntry = ({ event }: EventEntryProps) => {
             rel="noreferrer"
             className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
           >
-            Go to link
+            Go to the link
           </a>
         </div>
       )}
       {!event.isEventFree && (
-        <div className="flex gap-x-2">
+        <div className="flex text-left gap-x-2">
           <span className="min-w-[150px]">Event price:</span>
-          <span>$ {event.eventPrice}</span>
+          <span>
+            <span className="text-green-900">$</span>
+            {event.eventPrice}
+          </span>
         </div>
       )}
     </div>
