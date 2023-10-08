@@ -1,7 +1,7 @@
-export const SERVER_URL = 'http://localhost:PORT';
+export const SERVER_URL = 'https://localhost:7218/public/api/v1';
 
 export const SERVER_ROUTES = {
-  RSS_FEED: '/rss-feed',
+  RSS_FEED: '/FeedItem/GetFeedItems',
   auth: '/auth',
   // ..
 };
