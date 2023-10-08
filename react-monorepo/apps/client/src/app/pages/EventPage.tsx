@@ -14,15 +14,6 @@ export const EventPage = () => {
       <TabWrapper wrapperClassName="!pt-2">
         <h1>{selectedEventPage.eventName}</h1>
         <div className="flex flex-col text-base w-[90%] mx-[5%] mt-5">
-          {!selectedEventPage.isEventFree && (
-            <div className="flex text-left gap-x-2">
-              <span className="min-w-[150px]">Event price:</span>
-              <span>
-                <span className="text-green-900">$</span>
-                {selectedEventPage.eventPrice}
-              </span>
-            </div>
-          )}
           <div className="flex text-left gap-x-2">
             <span className="min-w-[150px] ">Event Description:</span>
             <span className="text-left">
