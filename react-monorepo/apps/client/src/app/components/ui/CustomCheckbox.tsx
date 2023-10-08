@@ -10,7 +10,7 @@ export const CustomCheckbox = ({
   name,
 }: CustomCheckboxProps) => {
   return (
-    <div className="flex items-center mb-4">
+    <div className="flex items-center mt-4 mb-[-10px]">
       <input
         id="default-checkbox"
         type="checkbox"

@@ -1,5 +1,5 @@
-import { MapProps } from '../../types';
+import PinImage from '../../../assets/pin.png';
 
-export const MapPin = ({ lat, lng }: MapProps) => {
-  return <img src="../../../assets/pin.png" alt="pin" />;
+export const MapPin = () => {
+  return <img src={PinImage} alt="pin" />;
 };

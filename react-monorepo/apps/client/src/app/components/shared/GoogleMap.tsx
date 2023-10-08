@@ -1,27 +1,27 @@
 import GoogleMapReact from 'google-map-react';
 import { MapPin } from './MapPin';
+import { useState } from 'react';
 
 interface GoogleMapProps {
   lat: number;
   lng: number;
-  onPositionChange: (event: any) => void;
+  positionChangeHandler: (event: { lat: number; lng: number }) => void;
 }
-export const GoogleMap = ({ lat, lng, onPositionChange }: GoogleMapProps) => {
-  const handlePositionChange = (event: any) => {
-    const position = {
-      lat: event.lat,
-      lng: event.lng,
-    };
 
-    onPositionChange(position);
-  };
+export const GoogleMap = ({
+  lat,
+  lng,
+  positionChangeHandler,
+}: GoogleMapProps) => {
   return (
     <GoogleMapReact
-      defaultCenter={{ lat, lng }}
+      center={{ lat, lng }}
       defaultZoom={16}
-      onClick={handlePositionChange}
+      yesIWantToUseGoogleMapApiInternals
+      onClick={positionChangeHandler}
     >
-      <MapPin lat={lat} lng={lng} />
+      {/* TODO fix map */}
+      <MapPin />
     </GoogleMapReact>
   );
 };

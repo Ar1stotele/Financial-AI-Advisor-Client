@@ -1,4 +1,4 @@
-export interface MapProps {
+export interface Point {
   lat: number;
   lng: number;
 }

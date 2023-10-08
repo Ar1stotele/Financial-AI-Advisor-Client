@@ -1,22 +1,25 @@
 import { useCallback, useState } from 'react';
-import { EventCategory, MapProps } from '../../../types';
-import { UserInput } from '../../ui';
+import { EventCategory, Point } from '../../../types';
+import { CustomDropdown, SubmitBtn, UserInput } from '../../ui';
 import { CustomCheckbox } from '../../ui/CustomCheckbox';
+
 import { GoogleMap } from '../../shared/GoogleMap';
 
 export const CreateEvent = () => {
-  const [eventCategory, setEventCategory] = useState(EventCategory.None);
+  const [eventCategory, setEventCategory] = useState(EventCategory.None); // TODO check if none
   const [eventDescription, setEventDescription] = useState('');
-  const [eventLocation, setEventLocation] = useState<MapProps>({
-    lat: 41.69411,
-    lng: 44.83368,
-  });
   const [eventName, setEventName] = useState('');
   const [eventCapacity, setEventCapacity] = useState('');
   const [eventPrice, setEventPrice] = useState('');
+  const [eventOnlineUrl, setEventOnlineUrl] = useState('');
+
+  const [lat, setLat] = useState(41.716667);
+  const [lng, setLng] = useState(44.783333);
 
   const [isEventOffline, setIsEventOffline] = useState(true);
   const [isEventFree, setIsEventFree] = useState(true);
+
+  const dropdownOptions = Object.values(EventCategory);
 
   const setEventNameHandler = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,8 +63,21 @@ export const CreateEvent = () => {
     setIsEventOffline(!isEventOffline);
   }, [isEventOffline]);
 
-  const setLocationOnMap = useCallback((position: MapProps) => {
-    setLocationOnMap(position);
+  const positionChangeHandler = useCallback((position: Point) => {
+    console.log({ position });
+    setLat(position.lat);
+    setLng(position.lng);
+  }, []);
+
+  const setEventUrlHandler = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setEventOnlineUrl(event.target.value);
+    },
+    []
+  );
+
+  const createEventHandler = useCallback(() => {
+    console.log('TODO --> create event');
   }, []);
 
   return (
@@ -81,37 +97,51 @@ export const CreateEvent = () => {
         onChangeHandler={setEventCapacityHandler}
         placeholder="Enter number of participants"
       />
+      <div className="w-[35%] flex gap-10 justify-items-start items-center">
+        <span className="text-base">Select Category:</span>
+        <CustomDropdown
+          dropdownOptions={dropdownOptions}
+          selectedOption={eventCategory}
+          setSelectedOption={setEventCategory}
+        />
+      </div>
+      <div className="w-[35%] flex items-center justify-between">
+        <CustomCheckbox
+          checked={isEventFree}
+          setValueHandler={setIsEventFreeHandler}
+          name="is event free"
+        />
+        <UserInput
+          value={eventPrice}
+          onChangeHandler={setEventPriceHandler}
+          inputClassName="!w-[70%]"
+          placeholder="Enter event cost for guests ($)"
+        />
+      </div>
+
       <CustomCheckbox
         checked={isEventOffline}
         setValueHandler={setIsEventOfflineHandler}
         name="is event offline"
       />
-      {!isEventOffline && (
-        // <UserInput
-        //   value={event}
-        //   onChangeHandler={setEventPriceHandler}
-        //   placeholder="Enter event cost for guests ($)"
-        // />
-        <div className="h-screen w-full">
+      {isEventOffline && (
+        <div className="h-[50vh] w-1/2">
           <GoogleMap
-            lat={eventLocation.lat}
-            lng={eventLocation.lng}
-            onPositionChange={setLocationOnMap}
-          />{' '}
+            lat={lat}
+            lng={lng}
+            positionChangeHandler={positionChangeHandler}
+          />
         </div>
       )}
-      <CustomCheckbox
-        checked={isEventFree}
-        setValueHandler={setIsEventFreeHandler}
-        name="is event free"
-      />
-      {!isEventFree && (
+      {!isEventOffline && (
         <UserInput
-          value={eventPrice}
-          onChangeHandler={setEventPriceHandler}
-          placeholder="Enter event cost for guests ($)"
+          value={eventOnlineUrl}
+          onChangeHandler={setEventUrlHandler}
+          placeholder="Enter event URL"
+          inputClassName="!mt-2"
         />
       )}
+      <SubmitBtn btnName="Create Event" btnAction={createEventHandler} />
     </div>
   );
 };
