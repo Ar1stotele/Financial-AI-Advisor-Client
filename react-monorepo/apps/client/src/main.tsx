@@ -7,16 +7,20 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles.css';
 import { BrowserRouter } from 'react-router-dom';
 import { GlobalContextProvider } from './app/store/GlobalStore';
+import { WagmiConfig } from 'wagmi';
+import { config } from './app/functions/wagmi/createClient';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <StrictMode>
-    <BrowserRouter>
-      <GlobalContextProvider>
-        <App />
-      </GlobalContextProvider>
-    </BrowserRouter>
+    <WagmiConfig config={config}>
+      <BrowserRouter>
+        <GlobalContextProvider>
+          <App />
+        </GlobalContextProvider>
+      </BrowserRouter>
+    </WagmiConfig>
   </StrictMode>
 );

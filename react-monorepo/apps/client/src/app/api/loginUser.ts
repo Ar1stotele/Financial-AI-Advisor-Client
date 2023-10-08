@@ -7,6 +7,5 @@ interface RequestObjectProps {
   password: string;
 }
 
-export const registerUser = async (requestObject: RequestObjectProps) =>
-  (await axios.post(`${SERVER_URL}${SERVER_ROUTES.REGISTER}`, requestObject))
-    .data;
+export const loginUser = async (requestObject: RequestObjectProps) =>
+  (await axios.post(`${SERVER_URL}${SERVER_ROUTES.LOGIN}`, requestObject)).data;

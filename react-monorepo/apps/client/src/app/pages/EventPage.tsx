@@ -1,12 +1,33 @@
+import { useCallback, useState } from 'react';
+import { ConnectWalletAndTransact } from '../components/metamask/ConnectWalletAndTransact';
 import { PageWrapper, TabWrapper } from '../components/ui';
 import { useGlobalContext } from '../hooks/useGlobalContext';
+import { GetTicket } from '../components/events/ticket/GetTicket';
 
 export const EventPage = () => {
   const { selectedEventPage } = useGlobalContext();
 
+  const [isTxFinished, setIsTxFinished] = useState(false);
+  const [isPaymentSuccessfull, setIsPaymentSuccessfull] = useState<
+    undefined | boolean
+  >(false);
+  const [isRegisteredOnEvent, setIsRegisteredOnEvent] = useState(false);
+
   const googleMapsUrl = selectedEventPage.isEventOffline
     ? `https://maps.google.com/?q=${selectedEventPage.eventLocation?.lat},${selectedEventPage.eventLocation?.lng}`
     : '';
+
+  const txResultHandler = useCallback(
+    (data: { hash: string } | undefined, isSuccess: boolean) => {
+      if (data?.hash && data?.hash?.length !== 0 && isSuccess) {
+        setIsPaymentSuccessfull(true);
+        setIsTxFinished(true);
+      } else if (data?.hash && data?.hash?.length !== 0 && !isSuccess) {
+        setIsTxFinished(true);
+      }
+    },
+    []
+  );
 
   return (
     <PageWrapper>
@@ -62,6 +83,21 @@ export const EventPage = () => {
                 {selectedEventPage.eventPrice}
               </span>
             </div>
+          )}
+        </div>
+        <div>
+          {!isTxFinished && !selectedEventPage.isEventFree && (
+            <ConnectWalletAndTransact
+              ethAmount="1"
+              receiverAddress="0x1668C5F8df7c202654F6b21829eaA1E57bC1fA5f"
+              getResult={txResultHandler}
+            />
+          )}
+          {isPaymentSuccessfull && (
+            <GetTicket value={selectedEventPage.eventName} />
+          )}
+          {selectedEventPage.isEventFree && (
+            <GetTicket value={selectedEventPage.eventName} />
           )}
         </div>
       </TabWrapper>

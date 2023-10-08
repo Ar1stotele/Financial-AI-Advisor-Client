@@ -6,9 +6,6 @@ interface GlobalContextProps {
   selectedEventPage: EventProps;
 
   setSelectedEventPage: Dispatch<EventProps>;
-  /*
-
-  */
 }
 
 interface GlobalContextProviderProps {

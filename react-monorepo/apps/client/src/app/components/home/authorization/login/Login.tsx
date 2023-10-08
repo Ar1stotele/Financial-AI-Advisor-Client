@@ -1,8 +1,11 @@
 import { useNavigate } from 'react-router';
 import { useState, useCallback } from 'react';
 import toast from 'react-hot-toast';
+import axios from 'axios';
 
 import { UserInput, SubmitBtn, TabWrapper } from '../../../ui';
+import { loginUser } from '../../../../api/loginUser';
+import Cookies from 'js-cookie';
 
 interface LoginProps {
   goBackHandler: () => void;
@@ -28,15 +31,33 @@ export const Login = ({ goBackHandler }: LoginProps) => {
     []
   );
 
-  const registerHandler = useCallback(() => {
+  const registerHandler = useCallback(async () => {
     if (userEmail.trim().length === 0 || userPassword.trim().length === 0) {
       toast.error('Something went wrong', { duration: 5000 });
       return undefined;
     }
+    const requestObject = {
+      userName: 'dummy',
+      email: userEmail,
+      password: userPassword,
+    };
+
+    const response = await loginUser(requestObject);
+
+    if (response.status) {
+      toast.success('You have logged in');
+      const token = response.payload.token;
+      // Cookies.get('token');
+
+      Cookies.set('cookie', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+      console.log({ response });
+    } else {
+      toast.error('Something went wrong');
+    }
 
     navigate('/events');
-
-    console.log('TODO --> REGISTER USER');
   }, [navigate, userEmail, userPassword]);
 
   return (

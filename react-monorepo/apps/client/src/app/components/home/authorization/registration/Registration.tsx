@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
 import { useCallback, useState } from 'react';
 import { TabWrapper, SubmitBtn, UserInput } from '../../../ui';
+import { registerUser } from '../../../../api/registerUser';
 
 interface RegistrationProps {
   goBackHandler: () => void;
@@ -32,7 +33,7 @@ export const Registration = ({ goBackHandler }: RegistrationProps) => {
     []
   );
 
-  const registerHandler = useCallback(() => {
+  const registerHandler = useCallback(async () => {
     if (
       userName.trim().length === 0 ||
       userEmail.trim().length === 0 ||
@@ -42,7 +43,18 @@ export const Registration = ({ goBackHandler }: RegistrationProps) => {
       return undefined;
     }
 
-    console.log('TODO --> REGISTER USER');
+    const requestObject = {
+      userName: userName,
+      email: userEmail,
+      password: userPassword,
+    };
+
+    const response = await registerUser(requestObject);
+    if (response.status) {
+      toast.success('You have successfully registered, now you can log in');
+    } else {
+      toast.error('Something went wrong. Please, try again');
+    }
   }, [userEmail, userName, userPassword]);
 
   return (
